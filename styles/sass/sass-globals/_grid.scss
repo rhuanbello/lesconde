@@ -1,0 +1,166 @@
+// Variáveis
+$cols: 12;
+$gutter: 20;
+$lg: 1200px;
+$md: 760px;
+$sm: 480px;
+
+// Box Sizing
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+// Mixin de Media Querie
+@mixin device($type) {
+    @if $type == notebook {
+        @media screen and (min-width: $lg){
+            @content;
+
+        }
+    }@else if $type == tablet {
+        @media screen and (min-width: $md) and (max-width: $lg - 1){
+            @content;
+
+        }        
+    }@else if $type == mobile {
+        @media screen and (max-width: $md - 1) {
+            @content
+        }
+    }
+}
+
+p {
+    color: blue;
+    @include device(tablet) {
+        color: pink;
+    }
+    @include device(mobile) {
+        color: red;
+    }
+
+
+}
+
+// width é igual ao numero de colunas / pelo total de colunas * 100
+// resultado será width - gutter
+// grid(6) = 6 / 12 * 100 + "%"
+
+@function grid ($col, $offset: false) {
+    $width: $col / $cols * 100 + "%";
+    $result: calc(#{$width} - #{$gutter + px});
+
+    @if $offset == offset {
+        $gutter: $gutter / 2;
+        $result: calc(#{$width} + #{$gutter + px});
+    }
+
+    @return $result;
+}
+
+// Gerando as classes de grid
+
+// $i = 1 até número de colunas (12)
+// .col-(número de 1 até 12) = width: grid($i)
+
+@for $i from 1 through $cols {
+    .col-#{$i} {
+        width: grid($i);
+
+    }
+
+}
+
+// Mixin Estrutura do Grid
+
+@mixin grid-structure {
+    float: left;
+    min-height: 1px;
+    margin-left: $gutter / 2 + px;
+    margin-right: $gutter / 2 + px;
+
+    @include device(mobile) {
+        width: 100%;
+        float: none;
+        margin-right: 0px;
+
+    }
+
+
+}
+
+[class^="col-"] {
+    @include grid-structure;
+
+
+}
+
+// Gerar classes de offset
+
+@for $i from 1 through $cols {
+    .offset-#{$i} {
+        margin-left: grid($i, offset)
+
+    }
+
+}
+
+@include device(mobile) {
+    %offset {
+        margin-left: 0px;
+
+    }
+}
+
+// Mixin Clearfix
+
+@mixin clearfix {
+    &::after, &::before {
+        content: '';
+        display: table;
+        clear: both;
+
+    }
+}
+
+@mixin container {
+    max-width: $lg;
+    margin: 0px auto;
+    position: relative;
+
+    @include device(mobile) {
+        max-width: $sm;
+        margin-left: 10px;
+        margin-right: 10px;
+
+    }
+
+    @include clearfix;
+
+}
+
+.container {
+    @include container;
+
+}
+
+
+@mixin row {
+    position: relative;
+    margin-left: -$gutter / 2 + px;
+    margin-right: -$gutter / 2 + px;
+
+    @include device(mobile) {
+        margin-left: 0px;
+        margin-right: 0px;
+
+    }    
+
+    @include clearfix;
+    
+}    
+
+.row {
+    @include row;
+
+}    
+

@@ -1,0 +1,32 @@
+footer {
+    padding: 20px 0;
+    background: $cinza;
+   
+    @include box-shadow(0 0 0 10px $cinza);
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @include device(mobile) {
+            display: block;
+        }
+
+        p {
+            color: $bege-claro;
+
+            @include device(mobile) {
+                text-align: center;
+            }
+
+        }
+        a img {
+
+            @include device(mobile) {
+                margin: 20px auto;
+                
+            }
+        }
+    }
+}

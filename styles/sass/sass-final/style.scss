@@ -1,0 +1,13 @@
+// Globals
+
+@import '../sass-globals/reset'; 
+@import '../sass-globals/grid';
+@import '../sass-globals/variables-mixins';
+@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=PT+Mono&display=swap');
+
+// Pages
+@import '../sass-pages/index';
+@import '../sass-pages/intro';
+@import '../sass-pages/menu';
+@import '../sass-pages/contato';
+@import '../sass-pages/footer';
